@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type KeyboardEvent } from "react";
-import { motion } from "motion/react";
+import { m } from "motion/react";
 import type { Logiciel } from "@/content/reglages-4k";
 import { cx } from "@/lib/cx";
 
@@ -89,7 +89,7 @@ export function LogicielTabs({
             {active && (
               // layoutId : motion fait glisser ce calque d'un onglet à l'autre
               // (transform uniquement, donc fluide). Pill sur mobile, soulignement sur desktop.
-              <motion.span
+              <m.span
                 layoutId="logiciel-indicator"
                 aria-hidden
                 className="absolute inset-0 rounded-full border border-gold-500/60 bg-gold-500/15 md:inset-x-0 md:bottom-0 md:top-auto md:h-0.5 md:rounded-none md:border-0 md:bg-gold-300"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { ValueChip } from "./ValueChip";
 
 const FEEDBACK_MS = 1500;
@@ -73,7 +73,7 @@ export function CopyValue({
 
   return (
     <span className="inline-flex">
-      <motion.button
+      <m.button
         type="button"
         onClick={handleClick}
         aria-label={`Copier ${label ? `${label} ` : ""}${copie}`}
@@ -92,7 +92,7 @@ export function CopyValue({
           overlay={
             <AnimatePresence>
               {copied && (
-                <motion.span
+                <m.span
                   className="absolute inset-0 flex items-center justify-center font-sans text-sm font-semibold"
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -100,12 +100,12 @@ export function CopyValue({
                   transition={{ duration: 0.15 }}
                 >
                   Copié
-                </motion.span>
+                </m.span>
               )}
             </AnimatePresence>
           }
         />
-      </motion.button>
+      </m.button>
       {/* Les lecteurs d'écran n'entendent pas un changement purement visuel : on l'annonce. */}
       <span role="status" className="sr-only">
         {copied ? "Copié" : ""}

@@ -51,7 +51,7 @@
   --ease-ritual: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Entrées du hero en CSS pur : visibles dès le HTML, aucune dépendance au JS (LCP). */
-  --animate-word-rise: word-rise 0.9s var(--ease-ritual) both;
+  --animate-word-rise: word-rise 0.7s var(--ease-ritual) both;
   --animate-fade-rise: fade-rise 0.9s var(--ease-ritual) both;
   --animate-glow-pulse: glow-pulse 7s ease-in-out 1s infinite;
   @keyframes word-rise {

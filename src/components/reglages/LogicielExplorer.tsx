@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { logiciels, logicielParDefaut, trouverLogiciel } from "@/content/reglages-4k";
 import { LogicielPanel } from "./LogicielPanel";
 import { LogicielTabs, PANEL_ID, tabId } from "./LogicielTabs";
@@ -18,7 +18,7 @@ function View({ slug, onChange }: { slug: string; onChange: (slug: string) => vo
         {/* mode="wait" : l'ancien contenu s'efface avant l'arrivée du nouveau, pas de saut de hauteur
             avec deux panneaux empilés. Durées courtes (~0,4 s au total) pour rester réactif. */}
         <AnimatePresence mode="wait" initial={false}>
-          <motion.div
+          <m.div
             key={logiciel.slug}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ function View({ slug, onChange }: { slug: string; onChange: (slug: string) => vo
             transition={{ duration: 0.2, ease: "easeOut" }}
           >
             <LogicielPanel logiciel={logiciel} />
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </>

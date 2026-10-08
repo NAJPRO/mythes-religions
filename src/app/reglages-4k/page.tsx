@@ -37,11 +37,11 @@ export default function Reglages4kPage() {
           </h1>
           <p
             className="mx-auto mt-5 max-w-md animate-fade-rise text-lg text-ash"
-            style={{ animationDelay: "500ms" }}
+            style={{ animationDelay: "300ms" }}
           >
             4 règles, puis les réglages exacts de ton logiciel. Tout est ici, copiable en un tap.
           </p>
-          <div className="mt-8 animate-fade-rise" style={{ animationDelay: "650ms" }}>
+          <div className="mt-8 animate-fade-rise" style={{ animationDelay: "420ms" }}>
             {/* Raccourci vers le sélecteur : l'objectif est de trouver ses réglages en quelques secondes. */}
             <ButtonLink href="#logiciel" variant="ghost">
               Choisir mon logiciel

@@ -26,12 +26,12 @@ export default function HomePage() {
           </h1>
           <p
             className="mx-auto mt-6 max-w-md animate-fade-rise text-lg text-ash"
-            style={{ animationDelay: "500ms" }}
+            style={{ animationDelay: "300ms" }}
           >
             Mythes, légendes et récits d&rsquo;horreur racontés à voix basse. Ici, tu retrouves
             les liens et ressources partagés en commentaire.
           </p>
-          <div className="mt-9 animate-fade-rise" style={{ animationDelay: "650ms" }}>
+          <div className="mt-9 animate-fade-rise" style={{ animationDelay: "420ms" }}>
             <ButtonLink href={site.tiktokUrl}>Voir sur TikTok</ButtonLink>
           </div>
         </Container>

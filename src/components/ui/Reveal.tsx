@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion } from "motion/react";
+import { m } from "motion/react";
 
 /**
  * Apparition douce au scroll, pour tout ce qui est SOUS la ligne de flottaison.
@@ -22,7 +22,7 @@ export function Reveal({
   className?: string;
 }) {
   return (
-    <motion.div
+    <m.div
       className={className}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -30,6 +30,6 @@ export function Reveal({
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

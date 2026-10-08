@@ -25,7 +25,7 @@ export function RevealWords({
           <span className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
             <span
               className={cx("inline-block animate-word-rise", accent.includes(word) && "text-gold-300", className)}
-              style={{ animationDelay: `${120 + i * 110}ms` }}
+              style={{ animationDelay: `${i * 80}ms` }}
             >
               {word}
             </span>
