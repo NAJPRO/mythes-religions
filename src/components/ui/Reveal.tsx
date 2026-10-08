@@ -4,8 +4,10 @@ import type { ReactNode } from "react";
 import { motion } from "motion/react";
 
 /**
- * Apparition douce au scroll. Seul composant client des animations : le reste
- * de la page reste en Server Components, donc très peu de JS envoyé au mobile.
+ * Apparition douce au scroll, pour tout ce qui est SOUS la ligne de flottaison.
+ * Le contenu au-dessus (hero) utilise des animations CSS : motion masque le
+ * contenu dans le HTML serveur tant que React n'est pas hydraté, ce qui
+ * retarderait le LCP.
  * Transform + opacity uniquement (propriétés composées par le GPU) pour rester
  * fluide sur un téléphone d'entrée de gamme. `once` évite de rejouer l'effet.
  * Le respect de prefers-reduced-motion est géré globalement par <MotionConfig>.

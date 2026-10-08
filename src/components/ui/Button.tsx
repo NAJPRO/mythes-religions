@@ -17,7 +17,8 @@ type ButtonLinkProps = ComponentPropsWithoutRef<"a"> & {
 /**
  * Toujours un lien (jamais un <button>) : ici chaque action est une navigation.
  * Hauteur min 48px = cible tactile confortable au pouce.
- * Les liens externes s'ouvrent dans un nouvel onglet avec rel sécurisé.
+ * Trois cas : route interne (Link), ancre de la page (<a> simple, sans nouvel
+ * onglet), lien externe (nouvel onglet avec rel sécurisé).
  */
 export function ButtonLink({ href, variant = "primary", className, children, ...props }: ButtonLinkProps) {
   const classes = cx(
@@ -30,6 +31,13 @@ export function ButtonLink({ href, variant = "primary", className, children, ...
       <Link href={href} className={classes} {...props}>
         {children}
       </Link>
+    );
+  }
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={classes} {...props}>
+        {children}
+      </a>
     );
   }
   return (

@@ -4,7 +4,7 @@ import { Atmosphere } from "@/components/layout/Atmosphere";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/ui/MotionProvider";
-import { site } from "@/lib/site";
+import { site, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 // next/font auto-héberge les polices au build : pas de requête vers Google au
@@ -20,6 +20,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: { default: `${site.name} — Liens & ressources`, template: `%s · ${site.name}` },
   description: site.description,
   openGraph: {
