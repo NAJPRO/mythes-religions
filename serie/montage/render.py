@@ -78,12 +78,12 @@ def subtitle_entries(lines, t_start, t_end, line_idx, ghost=()):
 def render(shots, subs, title, tag, total, out_mp4, silent_video="/tmp/_ep_silent.mp4", audio_filter_args=None):
     vig = vignette()
     rng = np.random.default_rng(7)
-    grain = [(rng.normal(0, 7, (H, W, 1))).astype(np.float32) for _ in range(6)]
+    grain = [(rng.normal(0, 3.5, (H, W, 1))).astype(np.float32) for _ in range(6)]
     sub_layers = [(a, b, *text_layer(t, 62, center_y=1560, maxw=900)) for a, b, t in subs]
     title_layers = [(a, b, *text_layer(t_, sz, font=FONT_TITLE, center_y=cy, stroke=8, maxw=940)) for (a, b, t_, sz, cy) in title]
     tag_rgb, tag_a = tag_layer(tag)
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                          "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p", silent_video], stdin=subprocess.PIPE)
+                          "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-maxrate", "9M", "-bufsize", "18M", "-pix_fmt", "yuv420p", silent_video], stdin=subprocess.PIPE)
     n = int(round(total * FPS))
     def shot_frame(s, t):
         img = load(s["img"])
