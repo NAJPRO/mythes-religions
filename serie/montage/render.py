@@ -67,19 +67,20 @@ def subtitle_entries(lines, t_start, t_end, line_idx, ghost=()):
     ent = []
     for k, i in enumerate(line_idx):
         a = lines[i]; b = lines[i + 1] if i + 1 < len(lines) else t_end
-        ent.append([a, min(b, t_end), L[i]])
+        ghost = L[i].startswith("«") and L[i].strip("« .»") in ("Samuel", "Toc") and L[i].startswith("« Samuel")
+        ent.append([a, min(b, t_end), L[i], ghost])
     out = []
     for e in ent:
-        if out and (out[-1][1] - out[-1][0]) < 1.5:
+        if out and (out[-1][1] - out[-1][0]) < 1.5 and not out[-1][3] and not e[3]:
             out[-1][1] = e[1]; out[-1][2] += " " + e[2]
         else: out.append(e)
     return out
 
-def render(shots, subs, title, tag, total, out_mp4, silent_video="/tmp/_ep_silent.mp4", audio_filter_args=None):
+def render(shots, subs, title, tag, total, out_mp4, silent_video="/tmp/_ep_silent.mp4", t_off=0.0, tag_from=3.4):
     vig = vignette()
     rng = np.random.default_rng(7)
     grain = [(rng.normal(0, 3.5, (H, W, 1))).astype(np.float32) for _ in range(6)]
-    sub_layers = [(a, b, *text_layer(t, 62, center_y=1560, maxw=900)) for a, b, t in subs]
+    sub_layers = [(a, b, *(text_layer(t, 58, color=(191, 216, 238), center_y=1560, maxw=900, stroke=5) if g else text_layer(t, 62, center_y=1560, maxw=900))) for a, b, t, g in subs]
     title_layers = [(a, b, *text_layer(t_, sz, font=FONT_TITLE, center_y=cy, stroke=8, maxw=940)) for (a, b, t_, sz, cy) in title]
     tag_rgb, tag_a = tag_layer(tag)
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
@@ -95,7 +96,7 @@ def render(shots, subs, title, tag, total, out_mp4, silent_video="/tmp/_ep_silen
             d0, d1, fin = s["dim"]; k = ease((t - d0) / (d1 - d0)); f = f * (1 - (1 - fin) * k)
         return f
     for i in range(n):
-        t = i / FPS
+        tr = i / FPS; t = tr + t_off
         cur = [s for s in shots if s["t0"] <= t < s["t1"]]
         s = cur[0] if cur else None
         if s is None: f = np.zeros((H, W, 3), np.float32)
@@ -114,9 +115,9 @@ def render(shots, subs, title, tag, total, out_mp4, silent_video="/tmp/_ep_silen
             f = f * (1 + 0.025 * np.sin(t * 7.3) + 0.015 * np.sin(t * 17.1))
         f = f * vig + grain[i % 6]
         for a_, b_, rgb, al in title_layers:
-            if a_ <= t < b_:
-                k = min((t - a_) / 0.5, (b_ - t) / 0.6, 1); f = f * (1 - al * k) + rgb * al * k
-        if t >= 3.4:
+            if a_ <= tr < b_:
+                k = min((tr - a_) / 0.5, (b_ - tr) / 0.6, 1); f = f * (1 - al * k) + rgb * al * k
+        if tr >= tag_from:
             f = f * (1 - tag_a) + tag_rgb * tag_a
         for a_, b_, rgb, al in sub_layers:
             if a_ <= t < b_:
