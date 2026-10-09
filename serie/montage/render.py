@@ -89,7 +89,11 @@ def render(shots, subs, title, tag, total, out_mp4, silent_video="/tmp/_ep_silen
     def shot_frame(s, t):
         img = load(s["img"])
         pr = (t - s["t0"]) / max(s["t1"] - s["t0"], 1e-3)
-        f = view_frame(img, s["v0"], s["v1"], pr).astype(np.float32)
+        v0, v1 = s["v0"], s["v1"]
+        if s.get("shake") and t >= s["shake"][0]:  # vibration (téléphone)
+            a = s["shake"][1] * (1 if int(t * 7) % 2 == 0 else -1) * (0.5 + 0.5 * np.sin(t * 90))
+            v0 = (v0[0] + a, v0[1] + a * 0.6, v0[2]); v1 = (v1[0] + a, v1[1] + a * 0.6, v1[2])
+        f = view_frame(img, v0, v1, pr).astype(np.float32)
         if s.get("sat") is not None:
             g = f.mean(axis=2, keepdims=True); f = g + (f - g) * s["sat"]
         if s.get("dim"):  # (t_debut, t_fin, facteur_final) : la lumière s'éteint
